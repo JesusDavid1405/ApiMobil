@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
+import Card from "../components/Card";
 import { RootStackParamList } from "../navigations/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
@@ -14,18 +15,12 @@ const Home = () => {
     const navigation = useNavigation<HomeStackNavigatorProp>();
     return (
         <View>
-            <TouchableOpacity
-                style={styles.touch}
+            <Card
+                title="Roles"
+                description="Cantidad de registros"
+                count={5}
                 onPress={() => navigation.navigate("Rol")}
-            >
-                <Text>Rol</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.touch}
-                onPress={() => navigation.navigate("Form")}
-            >
-                <Text>Form</Text>
-            </TouchableOpacity>
+            />
         </View>
     );
 };
