@@ -2,48 +2,64 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import Home from "../screens/Home";
-import Rol from "../screens/Rol/Rol";
-import Form from "../screens/Form/Form";
 
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+//import screens
+import BookListScreen from "../screens/BookList";
+import BookRegisterScreen from "../screens/BookRegisterScreen";
+import BookUpdateScreen from "../screens/BookUpdateScreen";
 
+//import icon
+import AntDesign from "@expo/vector-icons/AntDesign";
+
+//import stack
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-const HomeStackNavigator = createNativeStackNavigator();
+const BookStackNavigator = createNativeStackNavigator();
 
-function MyStacks(){
-    return(
-        <HomeStackNavigator.Navigator initialRouteName="Home">
-            <HomeStackNavigator.Screen name="Home" component={Home}/>
-            <HomeStackNavigator.Screen name="Rol" component={Rol}/>
-            <HomeStackNavigator.Screen name="Form" component={Form}/>
-        </HomeStackNavigator.Navigator>
-    );
+function MyStack() {
+  return (
+    <BookStackNavigator.Navigator initialRouteName="BookList">
+      <BookStackNavigator.Screen name="BookList" component={BookListScreen} />
+      <BookStackNavigator.Screen name="BookRegister" component={BookRegisterScreen} />
+      <BookStackNavigator.Screen name="BookUpdate" component={BookUpdateScreen} />
+    </BookStackNavigator.Navigator>
+  );
 }
 
+//instance for createBottomTabNavigator
 const Tab = createBottomTabNavigator();
 
-function MyTabs(){
-    return(
-        <Tab.Navigator
-            initialRouteName="Home"
-            screenOptions={{tabBarActiveTintColor: "blue"}}
-        >
-            <Tab.Screen
-                name="Home"
-                component={MyStacks}
-                options={{
-                    tabBarLabel: "Home",
-                    headerShown: false,
-                    tabBarIcon: ({ color, size }) => (
-                        <FontAwesome name="home" size={24} color="black" />
-                    ),
-                }}
-            />
-        </Tab.Navigator>
-    );
+function MyTabs() {
+  return (
+    <Tab.Navigator
+      initialRouteName="BookList"
+      screenOptions={{ tabBarActiveTintColor: "purple" }}
+    >
+      <Tab.Screen
+        name="BookList"
+        component={MyStack}
+        options={{
+          tabBarLabel: "List",
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="home" size={24} color="black" />
+          ),
+          tabBarBadge: 5,
+        }}
+      />
+      <Tab.Screen
+        name="BookRegister"
+        component={BookListScreen}
+        options={{
+          tabBarLabel: "BookRegister",
+          headerShown: false,
+          tabBarIcon: ({ color, size }) => (
+            <AntDesign name="setting" size={24} color="black" />
+          ),
+        }}
+      />
+    </Tab.Navigator>
+  );
 }
 
 export default function Navigation() {
