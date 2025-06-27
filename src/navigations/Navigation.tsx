@@ -65,7 +65,7 @@ function MyTabs() {
 export default function Navigation() {
   return (
     <NavigationContainer>
-      <MyTabs />
+      <MyTabs/>
     </NavigationContainer>
   );
 }

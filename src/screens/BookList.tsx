@@ -1,9 +1,13 @@
-import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 
 import { BooktackParamsList } from "../navigations/types";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+
+import { IForm } from "../api/types/IForm";
+import { getAllBook } from "../api/apiForm";
+import SimpleCard from "../components/FormCard";
 
 type BookScreenNavigationProp = NativeStackNavigationProp<
   BooktackParamsList,
@@ -12,21 +16,44 @@ type BookScreenNavigationProp = NativeStackNavigationProp<
 
 const HomeScreen = () => {
   const navigation = useNavigation<BookScreenNavigationProp>();
+  const [books, setBooks] = useState<IForm[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBooks = async () => {
+      const data = await getAllBook();
+      if (Array.isArray(data)) {
+        setBooks(data);
+        console.log("📚 Libros:", data);
+      }
+      setLoading(false);
+    };
+
+    fetchBooks();
+  }, []);
+
+  if (loading) {
+    return (
+      <View>
+        <ActivityIndicator size="large" color="#1e90ff" />
+      </View>
+    );
+  }
+
   return (
     <View>
-      <TouchableOpacity
-        style={styles.touch}
-        onPress={() => navigation.navigate("BookRegister")}
-      >
-        <Text>Add book</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.touch}
-        onPress={() => navigation.navigate("BookUpdate", { id: "1" })}
-      >
-        <Text>Update Book</Text>
-      </TouchableOpacity>
-      
+      <FlatList
+        data={books}
+        keyExtractor={(item) => item.id.toString()}
+        numColumns={2}
+        columnWrapperStyle={{ justifyContent: "space-between" }}
+        renderItem={({ item }) => (
+          <SimpleCard
+            nombre={item.name}
+            descripcion={item.description}
+          />
+        )}
+      />
     </View>
   );
 };

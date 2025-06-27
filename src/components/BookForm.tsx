@@ -1,4 +1,4 @@
-import { IBook } from "../api/types/IBook";
+import { IBook } from "../api/types/IForm";
 import { ScrollView, TextInput, View, StyleSheet } from "react-native";
 
 interface Props {

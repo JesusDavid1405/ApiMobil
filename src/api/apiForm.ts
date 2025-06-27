@@ -1,11 +1,11 @@
 //petición fetch
 
-import { BOOK_END_POINT } from "../constants/endpoints";
-import { IBook } from "./types/IBook";
+import { FORM_END_POINT } from "../constants/endpoints";
+import { IForm } from "./types/IForm";
 
-export const createBook = async (register: IBook) => {
+export const createBook = async (register: IForm) => {
   try {
-    const response = await fetch(BOOK_END_POINT, {
+    const response = await fetch(FORM_END_POINT, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(register),
@@ -22,7 +22,7 @@ export const createBook = async (register: IBook) => {
 
 export const getAllBook = async () => {
   try {
-    const response = await fetch(BOOK_END_POINT);
+    const response = await fetch(FORM_END_POINT);
     if (!response.ok) throw new Error("Error al listar los libros");
     let data = await response.json();
     console.log(data);
@@ -34,7 +34,7 @@ export const getAllBook = async () => {
 
 export const getByIdBook = async (id: number) => {
   try {
-    const response = await fetch(BOOK_END_POINT + id);
+    const response = await fetch(FORM_END_POINT + id);
 
     if (!response.ok) throw new Error("Error al actualizar el libro");
     let data = await response.json();
@@ -45,9 +45,9 @@ export const getByIdBook = async (id: number) => {
   }
 };
 
-export const updateBook = async (id: number, register: IBook) => {
+export const updateBook = async (id: number, register: IForm) => {
   try {
-    const response = await fetch(BOOK_END_POINT + id, {
+    const response = await fetch(FORM_END_POINT + id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(register),
@@ -64,7 +64,7 @@ export const updateBook = async (id: number, register: IBook) => {
 
 export const deleteBook = async (id: string) => {
   try {
-    const response = await fetch(BOOK_END_POINT + id, {
+    const response = await fetch(FORM_END_POINT + id, {
       method: "DELETE",
     });
 
