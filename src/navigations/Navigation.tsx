@@ -1,71 +1,78 @@
-import React from "react";
+// Navigation.tsx
+import React, { useState } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { View, StyleSheet } from "react-native";
 
-
-//import screens
-import BookListScreen from "../screens/BookList";
-import BookRegisterScreen from "../screens/BookRegisterScreen";
-import BookUpdateScreen from "../screens/BookUpdateScreen";
-
-//import icon
+// import icons
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-//import stack
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+// import screens
+import BookListScreen from "../screens/Home";
+import BookRegisterScreen from "../screens/BookRegisterScreen";
+
+// import components
+import Header from "../components/Header";
+import Sidebar from "../components/sidebar"; 
+import RolScreen from "../screens/Rol/RolList";
 
 const BookStackNavigator = createNativeStackNavigator();
-
-function MyStack() {
-  return (
-    <BookStackNavigator.Navigator initialRouteName="BookList">
-      <BookStackNavigator.Screen name="BookList" component={BookListScreen} />
-      <BookStackNavigator.Screen name="BookRegister" component={BookRegisterScreen} />
-      <BookStackNavigator.Screen name="BookUpdate" component={BookUpdateScreen} />
-    </BookStackNavigator.Navigator>
-  );
-}
-
-//instance for createBottomTabNavigator
 const Tab = createBottomTabNavigator();
 
-function MyTabs() {
-  return (
-    <Tab.Navigator
-      initialRouteName="BookList"
-      screenOptions={{ tabBarActiveTintColor: "purple" }}
-    >
-      <Tab.Screen
-        name="BookList"
-        component={MyStack}
-        options={{
-          tabBarLabel: "List",
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name="home" size={24} color="black" />
-          ),
-          tabBarBadge: 5,
-        }}
-      />
-      <Tab.Screen
-        name="BookRegister"
-        component={BookListScreen}
-        options={{
-          tabBarLabel: "BookRegister",
-          headerShown: false,
-          tabBarIcon: ({ color, size }) => (
-            <AntDesign name="setting" size={24} color="black" />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-  );
-}
-
 export default function Navigation() {
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+
+  const toggleSidebar = () => setSidebarVisible(!sidebarVisible);
+
   return (
     <NavigationContainer>
-      <MyTabs/>
+      <View style={{ flex: 1 }}>
+        <Tab.Navigator
+          initialRouteName="BookList"
+          screenOptions={{ tabBarActiveTintColor: "purple" }}
+        >
+          <Tab.Screen
+            name="BookList"
+            component={BookListScreen}
+            options={{
+              header: () => <Header title="Form" onMenuPress={toggleSidebar} />,
+              tabBarIcon: ({ color }) => (
+                <AntDesign name="home" size={24} color={color} />
+              ),
+            }}
+          />
+          <Tab.Screen
+            name="BookRegister"
+            component={BookRegisterScreen}
+            options={{
+              headerShown: false,
+              tabBarLabel: "BookRegister",
+              tabBarIcon: ({ color }) => (
+                <AntDesign name="setting" size={24} color={color} />
+              ),
+            }}
+          />
+        </Tab.Navigator>
+
+        {sidebarVisible && (
+          <View style={StyleSheet.absoluteFill}>
+            <Sidebar
+              activeItem="Inicio"
+              title="Panel"
+              username="jesus"
+              role="admin"
+              onSelect={(item) => {
+                console.log("Seleccionaste:", item);
+                setSidebarVisible(false);
+              }}
+              onClose={
+                () => setSidebarVisible(false)
+              }
+            />
+          </View>
+        )}
+      </View>
     </NavigationContainer>
   );
 }

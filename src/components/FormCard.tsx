@@ -20,10 +20,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#007aff", // azul brillante
     borderRadius: 40,
     padding: 20,
-    width: 200,
-    height: 200,
+    width: 172,
+    height: 161,
     justifyContent: "center",
     alignItems: "center",
+    marginHorizontal: 3,
+    marginTop: 3,
   },
   nombre: {
     fontSize: 20,

@@ -10,12 +10,12 @@ export const createBook = async (register: IForm) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(register),
     });
-
     if (!response.ok) throw new Error("Error al crear el libro");
     let data = await response.json();
     console.log(data);
     return data;
   } catch (error) {
+    
     return error;
   }
 };
@@ -28,6 +28,7 @@ export const getAllBook = async () => {
     console.log(data);
     return data;
   } catch (error) {
+    console.log(error);
     return error;
   }
 };
