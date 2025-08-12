@@ -14,7 +14,6 @@ type BookScreenNavigationProp = NativeStackNavigationProp<
 >;
 
 const FormScreen = () => {
-    const navigation = useNavigation<BookScreenNavigationProp>();
     const [books, setBooks] = useState<IForm[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -23,7 +22,7 @@ const FormScreen = () => {
         const data = await getAllBook();
         if (Array.isArray(data)) {
             setBooks(data);
-            console.log("📚 Form:", data);
+            // console.log("📚 Form:", data);
         }
         setLoading(false);
         };
@@ -34,27 +33,27 @@ const FormScreen = () => {
     if (loading) {
         return (
         <View>
-            <ActivityIndicator size="large" color="#1e90ff" />
+            <ActivityIndicator size="large" color="#fff" />
         </View>
         );
     }
 
     return (
         <View>
-        <FlatList
-            data={books}
-            keyExtractor={(item) => item.id.toString()}
-            numColumns={2}
-            columnWrapperStyle={{ justifyContent: "space-between" }}
-            renderItem={({ item }) => (
-            <SimpleCard
-                nombre={item.name}
-                descripcion={item.description}
+            <FlatList
+                data={books}
+                keyExtractor={(item) => item.id.toString()}
+                numColumns={2}
+                columnWrapperStyle={{ justifyContent: "space-between" }}
+                renderItem={({ item }) => (
+                    <SimpleCard
+                        nombre={item.name}
+                        descripcion={item.description}
+                    />
+                )}
             />
-            )}
-        />
         </View>
     );
 }
 
-export default FormScreen();
+export default FormScreen;

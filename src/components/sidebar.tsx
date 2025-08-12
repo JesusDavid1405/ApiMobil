@@ -1,7 +1,9 @@
 // Sidebar.tsx
+import { NavigationProp } from '@react-navigation/native';
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
+import { navigate } from '../navigations/rootNavigate';
 
 interface SidebarProps {
   activeItem: string;
@@ -39,33 +41,31 @@ const Sidebar: React.FC<SidebarProps> = ({
       <View style={styles.menu}>
         <SidebarItem
           icon="home"
-          label="Inicio"
-          active={activeItem === 'Inicio'}
-          onPress={() => onSelect('Inicio')}
-        />
-        <SidebarItem
-          icon="users"
-          label="Usuarios"
-          active={activeItem === 'Usuarios'}
-          onPress={() => onSelect('Usuarios')}
-        />
-        <SidebarItem
-          icon="settings"
           label="Roles"
           active={activeItem === 'Roles'}
-          onPress={() => onSelect('Roles')}
+          onPress={() => {
+            onSelect('Rol');
+            navigate('Rol'); 
+          }}
         />
-        <SidebarItem
-          icon="shield"
-          label="Permisos"
-          active={activeItem === 'Permisos'}
-          onPress={() => onSelect('Permisos')}
+
+        <SidebarItem 
+          icon="file-text"
+          label="Formularios"
+          active={activeItem === 'Formularios'}
+          onPress={() => {
+            onSelect('Form');
+            navigate('Form'); 
+          }}
         />
-        <SidebarItem
+        <SidebarItem 
           icon="grid"
-          label="Módulos"
-          active={activeItem === 'Módulos'}
-          onPress={() => onSelect('Módulos')}
+          label="Modulos"
+          active={activeItem === 'Modulos'}
+          onPress={() => {
+            onSelect('Module');
+            navigate('Module'); 
+          }}
         />
       </View>
 

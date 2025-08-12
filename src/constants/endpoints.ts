@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://172.30.6.102:5142/api/";
+const API_BASE_URL = "http://172.30.3.42:5142/api/";
 
 export const FORM_END_POINT = `${API_BASE_URL}Form/`;
 export const ROL_END_POINT = `${API_BASE_URL}Rol/`;

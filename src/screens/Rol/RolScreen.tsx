@@ -4,7 +4,7 @@ import { RoltackParamsList } from "../../navigations/types";
 import { useEffect, useState } from "react";
 import { IRol } from "../../api/types/IRol";
 import { getAllRol } from "../../api/apiRol";
-import { View } from "react-native-reanimated/lib/typescript/Animated";
+import { View } from 'react-native';
 import { ActivityIndicator, FlatList } from "react-native";
 import SimpleCard from "../../components/FormCard";
 
@@ -24,7 +24,7 @@ const RolScreen = () => {
             
             if(Array.isArray(data)) {
                 setRoles(data);
-                console.log("Libros:", data);
+                // console.log("Roles:", data);
             }
             setLoading(false);
         };

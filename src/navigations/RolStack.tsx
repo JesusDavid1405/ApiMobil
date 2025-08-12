@@ -1,5 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import RolScreen from "../screens/Rol/RolList";
+import RolScreen from "../screens/Rol/RolScreen";
 
 const Stack = createNativeStackNavigator();
 

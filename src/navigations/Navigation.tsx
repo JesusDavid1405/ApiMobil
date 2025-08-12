@@ -1,6 +1,6 @@
 // Navigation.tsx
 import React, { useState } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { View, StyleSheet } from "react-native";
@@ -9,15 +9,18 @@ import { View, StyleSheet } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 // import screens
-import BookListScreen from "../screens/Home";
-import BookRegisterScreen from "../screens/BookRegisterScreen";
+import RolScreen from "../screens/Rol/RolScreen";
+import FormScreen from "../screens/Form/FormScreen";
 
 // import components
 import Header from "../components/Header";
 import Sidebar from "../components/sidebar"; 
-import RolScreen from "../screens/Rol/RolList";
+import { navigationRef } from "./rootNavigate";
+import ModuleScreen from "../screens/Module/ModuleScreen";
 
-const BookStackNavigator = createNativeStackNavigator();
+
+
+const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function Navigation() {
@@ -26,34 +29,76 @@ export default function Navigation() {
   const toggleSidebar = () => setSidebarVisible(!sidebarVisible);
 
   return (
-    <NavigationContainer>
+    <NavigationContainer ref={navigationRef }>
       <View style={{ flex: 1 }}>
-        <Tab.Navigator
-          initialRouteName="BookList"
-          screenOptions={{ tabBarActiveTintColor: "purple" }}
-        >
-          <Tab.Screen
-            name="BookList"
-            component={BookListScreen}
+
+        <Stack.Navigator screenOptions={{ headerShown: false  }}>
+          <Stack.Screen name="Tabs">
+            {() => (
+              <Tab.Navigator
+                initialRouteName="Rol"
+                screenOptions={{ tabBarActiveTintColor: "purple" }}
+              >
+                <Tab.Screen
+                  name="Rol"
+                  component={RolScreen}
+                  options={{
+                    header: () => (
+                      <Header title="Roles" onMenuPress={toggleSidebar} />
+                    ),
+                    tabBarIcon: ({ color }) => (
+                      <AntDesign name="home" size={24} color={color} />
+                    ),
+                  }}
+                />
+                <Tab.Screen
+                  name="Form"
+                  component={FormScreen}
+                  options={{
+                    header: () => (
+                      <Header title="Formularios" onMenuPress={toggleSidebar} />
+                    ),
+                    tabBarLabel: "Form",
+                    tabBarIcon: ({ color }) => (
+                      <AntDesign name="setting" size={24} color={color} />
+                    ),
+                  }}
+                />
+              </Tab.Navigator>
+            )}
+          </Stack.Screen>
+
+          <Stack.Screen 
+            name="Module" 
+            component={ModuleScreen} 
             options={{
-              header: () => <Header title="Form" onMenuPress={toggleSidebar} />,
-              tabBarIcon: ({ color }) => (
-                <AntDesign name="home" size={24} color={color} />
+              headerShown: true,
+              header: () => (
+                <Header title="Modulos" onMenuPress={toggleSidebar} />
               ),
             }}
           />
-          <Tab.Screen
-            name="BookRegister"
-            component={BookRegisterScreen}
+          <Stack.Screen
+            name="Rol"
+            component={RolScreen}
             options={{
-              headerShown: false,
-              tabBarLabel: "BookRegister",
-              tabBarIcon: ({ color }) => (
-                <AntDesign name="setting" size={24} color={color} />
+              headerShown: true,
+              header: () => (
+                <Header title="Roles" onMenuPress={toggleSidebar} />
               ),
             }}
           />
-        </Tab.Navigator>
+          <Stack.Screen
+            name="Form"
+            component={FormScreen}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Formularios" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+        </Stack.Navigator>
 
         {sidebarVisible && (
           <View style={StyleSheet.absoluteFill}>
@@ -66,9 +111,7 @@ export default function Navigation() {
                 console.log("Seleccionaste:", item);
                 setSidebarVisible(false);
               }}
-              onClose={
-                () => setSidebarVisible(false)
-              }
+              onClose={() => setSidebarVisible(false)}
             />
           </View>
         )}
