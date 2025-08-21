@@ -19,6 +19,13 @@ import { navigationRef } from "./rootNavigate";
 import ModuleScreen from "../screens/Module/ModuleScreen";
 import FormEdit from "../screens/Form/FormEdit";
 import FormCreate from "../screens/Form/FormCreate";
+import RolEdit from "../screens/Rol/RolEdit";
+import RolCreate from "../screens/Rol/RolCreate";
+import ModuleEdit from "../screens/Module/ModuleEdit";
+import ModuleCreate from "../screens/Module/ModuleCreate";
+import PersonScreen from "../screens/Person/PersonScreen";
+import PersonCreate from "../screens/Person/PersonCreate";
+import PersonEdit from "../screens/Person/PersonEdit";
 
 
 
@@ -79,6 +86,26 @@ export default function Navigation() {
               ),
             }}
           />
+          <Stack.Screen 
+            name="ModuleEdit" 
+            component={ModuleEdit} 
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Editar Modulo" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen 
+            name="ModuleCreate" 
+            component={ModuleCreate} 
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Crear Modulo" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
           <Stack.Screen
             name="Rol"
             component={RolScreen}
@@ -86,6 +113,26 @@ export default function Navigation() {
               headerShown: true,
               header: () => (
                 <Header title="Roles" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="RolEdit"
+            component={RolEdit}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Editar Rol" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="RolCreate"
+            component={RolCreate}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Crear Rol" onMenuPress={toggleSidebar} />
               ),
             }}
           />
@@ -116,6 +163,36 @@ export default function Navigation() {
               headerShown: true,
               header: () => (
                 <Header title="Crear Formulario" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="Person"
+            component={PersonScreen}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Personas" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="PersonCreate"
+            component={PersonCreate}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Personas" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="PersonEdit"
+            component={PersonEdit}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Personas" onMenuPress={toggleSidebar} />
               ),
             }}
           />

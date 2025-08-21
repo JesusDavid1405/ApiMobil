@@ -1,30 +1,22 @@
 import React from "react";
 import { ScrollView, StyleSheet, Switch, Text, TextInput, View } from "react-native";
 import { IForm } from "../../../api/types/IForm";
+import { IRol } from "../../../api/types/IRol";
 
 interface Props {
-    form: IForm;
-    handleChange: (field: keyof IForm, value: string | boolean) => void;
+    rol: IRol;
+    handleChange: (field: keyof IRol, value: string | boolean) => void;
 }
 
-const Form: React.FC<Props> = ({ form, handleChange }) =>{
+const Form: React.FC<Props> = ({ rol, handleChange }) =>{
     return(
         <ScrollView contentContainerStyle={styles.container}>
             <Text style={styles.label}>Nombre</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Ingrese el nombre"
-                value={form.name}
+                value={rol.name}
                 onChangeText={(text) => handleChange("name", text)}
-            />
-            <Text style={styles.label}>Url</Text>
-            <TextInput
-                style={[styles.input, styles.textArea]}
-                placeholder="Ingrese la url del formulario"
-                multiline
-                numberOfLines={4}
-                value={form.url}
-                onChangeText={(text) => handleChange("url", text)}
             />
             <Text style={styles.label}>Descripción</Text>
             <TextInput
@@ -32,16 +24,16 @@ const Form: React.FC<Props> = ({ form, handleChange }) =>{
                 placeholder="Ingrese la descripción"
                 multiline
                 numberOfLines={4}
-                value={form.description}
+                value={rol.description}
                 onChangeText={(text) => handleChange("description", text)}
             />
 
             <View style={styles.switchContainer}>
                 <Text style={styles.label}>Activo</Text>
                 <Switch
-                value={form.isDelete}
+                value={rol.isDelete}
                 onValueChange={(value) => handleChange("isDelete", value)}
-                thumbColor={form.isDelete ? "#4CAF50" : "#f4f3f4"}
+                thumbColor={rol.isDelete ? "#4CAF50" : "#f4f3f4"}
                 trackColor={{ false: "#ccc", true: "#81C784" }}
                 />
             </View>

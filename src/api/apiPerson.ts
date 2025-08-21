@@ -1,9 +1,10 @@
-import { ROL_END_POINT } from "../constants/endpoints";
-import { IRol } from "./types/IRol";
+import { PERSON_END_POINT } from "../constants/endpoints";
+import { IPerson } from "./types/IPerson";
 
-export const getAllRol = async () => {
+
+export const getAll = async () => {
     try{
-        const response = await fetch(ROL_END_POINT);
+        const response = await fetch(PERSON_END_POINT);
         if (!response.ok) throw new Error("Error al listar los Roles");
 
         let data = await response.json();
@@ -16,9 +17,9 @@ export const getAllRol = async () => {
     }
 }
 
-export const getByIdRol = async (id: number) => {
+export const getById = async (id: number) => {
     try{
-        const response = await fetch(ROL_END_POINT + id);
+        const response = await fetch(PERSON_END_POINT + id);
         if(!response.ok) throw new Error(`Error al obtener el Rol con el Id ${id}`);
 
         let data = await response.json();
@@ -31,15 +32,15 @@ export const getByIdRol = async (id: number) => {
     }
 }
 
-export const updateRol = async (register: IRol) => {
+export const update = async (register: IPerson) => {
     try{
-        const response = await fetch(ROL_END_POINT, {
+        const response = await fetch(PERSON_END_POINT, {
             method: "PUT",
             headers:  {"Content-Type": "application/json"},
             body: JSON.stringify(register),
         });
 
-        if(!response.ok) throw new Error("Error al actualizar el rol");
+        if(!response.ok) throw new Error("Error al actualizar el modulo");
         let data = await response.json();
         console.log(data);
         return data;
@@ -49,9 +50,9 @@ export const updateRol = async (register: IRol) => {
     }
 }
 
-export const createRol = async (register: IRol) => {
+export const create = async (register: IPerson) => {
     try {
-        const response = await fetch(ROL_END_POINT, {
+        const response = await fetch(PERSON_END_POINT, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(register),
@@ -68,9 +69,9 @@ export const createRol = async (register: IRol) => {
     }
 }
 
-export const deleteRol = async (id: number) => {
+export const deleted = async (id: number) => {
   try{
-      const response = await fetch(ROL_END_POINT + id + "?tipo=2",{
+      const response = await fetch(PERSON_END_POINT + id + "?tipo=2",{
           method: "DELETE",
       });
 
@@ -85,16 +86,35 @@ export const deleteRol = async (id: number) => {
   }
 }
 
-// 🔹 Datos iniciales de prueba
-let mockData: IRol[] = [
-  { id: 1, name: "Administrador", description: "Acceso total al sistema", isDelete: false },
-  { id: 2, name: "Editor", description: "Puede editar contenido", isDelete: false },
-  { id: 3, name: "Visor", description: "Solo lectura", isDelete: false },
-  { id: 4, name: "Gerente", description: "Puede modificar y eliminar algunos contenidos", isDelete: false },
+//Mock Data for Testing
+
+let mockData: IPerson[] = [
+  {
+    id: 1,
+    name: "Carlos",
+    lastName: "Ramírez",
+    description: "Administrador principal",
+    typeDocument: "CC",
+    documentNumber: "1002003001",
+    phone: "3001234567",
+    address: "Calle 123 #45-67",
+    isDelete: false,
+  },
+  {
+    id: 2,
+    name: "María",
+    lastName: "González",
+    description: "Usuario estándar",
+    typeDocument: "TI",
+    documentNumber: "2003004002",
+    phone: "3109876543",
+    address: "Carrera 10 #20-30",
+    isDelete: false,
+  },
 ];
 
 // ✅ GET ALL
-export const getAllMock = async (): Promise<IRol[]> => {
+export const getAllMock = async (): Promise<IPerson[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(mockData);
@@ -103,7 +123,7 @@ export const getAllMock = async (): Promise<IRol[]> => {
 };
 
 //  GET BY ID
-export const getByIdMock = async (id: number): Promise<IRol | null> => {
+export const getByIdMock = async (id: number): Promise<IPerson | null> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const item = mockData.find((f) => f.id === id) || null;
@@ -112,19 +132,21 @@ export const getByIdMock = async (id: number): Promise<IRol | null> => {
   });
 };
 
-// ✅ CREATE
-export const createMock = async (newItem: Omit<IRol, "id">): Promise<IRol> => {
+// ✅ CREATE con id único
+export const createMock = async (newItem: Omit<IPerson, "id">): Promise<IPerson> => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const created = { ...newItem, id: mockData.length + 1 };
+      const maxId = mockData.length > 0 ? Math.max(...mockData.map((i) => i.id)) : 0;
+      const created = { ...newItem, id: maxId + 1 }; // 👈 siempre será mayor al existente
       mockData.push(created);
       resolve(created);
     }, 300);
   });
 };
 
+
 // ✅ UPDATE
-export const updateMock = async (id: number, updatedItem: Partial<IRol>): Promise<IRol | null> => {
+export const updateMock = async (id: number, updatedItem: Partial<IPerson>): Promise<IPerson | null> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       let index = mockData.findIndex((f) => f.id === id);

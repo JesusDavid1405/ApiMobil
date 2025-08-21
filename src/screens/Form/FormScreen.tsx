@@ -62,10 +62,10 @@ const FormScreen = () => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <SimpleCard
-                        nombre={item.name}
-                        descripcion={item.description}
+                        data={item}
                         onDelete={() => handleDelete(item.id)}
                         onEdit={() => navigation.navigate("FormEdit", { Id: item.id })}
+                        excludeKeys={["id", "isDelete"]} // Excluye la clave 'id' y 'isDelete'
                     />
                 )}
             />

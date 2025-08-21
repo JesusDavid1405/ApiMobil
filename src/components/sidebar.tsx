@@ -67,6 +67,15 @@ const Sidebar: React.FC<SidebarProps> = ({
             navigate('Module'); 
           }}
         />
+        <SidebarItem 
+          icon="user"
+          label="Personas"
+          active={activeItem === 'Personas'}
+          onPress={() => {
+            onSelect('Person');
+            navigate('Person'); 
+          }}
+        />
       </View>
 
       <TouchableOpacity style={styles.logout}>

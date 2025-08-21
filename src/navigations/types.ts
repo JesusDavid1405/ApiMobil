@@ -1,16 +1,31 @@
 
 export type RootParamList = {
+  //Roles
   Rol: undefined;
+  RolEdit: {Id: number | string};
+  RolCreate: undefined;
+
+  // Formulario
   Form: undefined;
+  FormEdit: {Id: number | string};
+  FormCreate: undefined;
+
+  // Módulo
   Module: undefined;
+  ModuleEdit: {Id: number | string};
+  ModuleCreate: undefined;
+
+  // Person
+  Person: undefined;
+  PersonCreate: undefined;
+  PersonEdit: {Id: number | string};
+
   User: undefined;
   Permission: undefined;
-  Person: undefined;
   RolUser: undefined;
   FormModule: undefined;
   RolFormPermission: undefined;
-  FormEdit: {Id: number | string};
-  FormCreate: undefined;
+
 };
 
 export type RoltackParamsList = {

@@ -1,9 +1,9 @@
-import { ROL_END_POINT } from "../constants/endpoints";
-import { IRol } from "./types/IRol";
+import { MODULE_END_POINT } from "../constants/endpoints";
+import { IModule } from "./types/IModule";
 
-export const getAllRol = async () => {
+export const getAll = async () => {
     try{
-        const response = await fetch(ROL_END_POINT);
+        const response = await fetch(MODULE_END_POINT);
         if (!response.ok) throw new Error("Error al listar los Roles");
 
         let data = await response.json();
@@ -16,9 +16,9 @@ export const getAllRol = async () => {
     }
 }
 
-export const getByIdRol = async (id: number) => {
+export const getById = async (id: number) => {
     try{
-        const response = await fetch(ROL_END_POINT + id);
+        const response = await fetch(MODULE_END_POINT + id);
         if(!response.ok) throw new Error(`Error al obtener el Rol con el Id ${id}`);
 
         let data = await response.json();
@@ -31,15 +31,15 @@ export const getByIdRol = async (id: number) => {
     }
 }
 
-export const updateRol = async (register: IRol) => {
+export const update = async (register: IModule) => {
     try{
-        const response = await fetch(ROL_END_POINT, {
+        const response = await fetch(MODULE_END_POINT, {
             method: "PUT",
             headers:  {"Content-Type": "application/json"},
             body: JSON.stringify(register),
         });
 
-        if(!response.ok) throw new Error("Error al actualizar el rol");
+        if(!response.ok) throw new Error("Error al actualizar el modulo");
         let data = await response.json();
         console.log(data);
         return data;
@@ -49,9 +49,9 @@ export const updateRol = async (register: IRol) => {
     }
 }
 
-export const createRol = async (register: IRol) => {
+export const create = async (register: IModule) => {
     try {
-        const response = await fetch(ROL_END_POINT, {
+        const response = await fetch(MODULE_END_POINT, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(register),
@@ -68,9 +68,9 @@ export const createRol = async (register: IRol) => {
     }
 }
 
-export const deleteRol = async (id: number) => {
+export const deleted = async (id: number) => {
   try{
-      const response = await fetch(ROL_END_POINT + id + "?tipo=2",{
+      const response = await fetch(MODULE_END_POINT + id + "?tipo=2",{
           method: "DELETE",
       });
 
@@ -85,16 +85,17 @@ export const deleteRol = async (id: number) => {
   }
 }
 
+
 // 🔹 Datos iniciales de prueba
-let mockData: IRol[] = [
-  { id: 1, name: "Administrador", description: "Acceso total al sistema", isDelete: false },
-  { id: 2, name: "Editor", description: "Puede editar contenido", isDelete: false },
-  { id: 3, name: "Visor", description: "Solo lectura", isDelete: false },
-  { id: 4, name: "Gerente", description: "Puede modificar y eliminar algunos contenidos", isDelete: false },
+let mockData: IModule[] = [
+  { id: 1, name: "Usuarios", description: "Gestión de usuarios del sistema", isDelete: false },
+  { id: 2, name: "Roles", description: "Administración de roles y permisos", isDelete: false },
+  { id: 3, name: "Reportes", description: "Módulo de reportes y estadísticas", isDelete: false },
 ];
 
+
 // ✅ GET ALL
-export const getAllMock = async (): Promise<IRol[]> => {
+export const getAllMock = async (): Promise<IModule[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(mockData);
@@ -103,7 +104,7 @@ export const getAllMock = async (): Promise<IRol[]> => {
 };
 
 //  GET BY ID
-export const getByIdMock = async (id: number): Promise<IRol | null> => {
+export const getByIdMock = async (id: number): Promise<IModule | null> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const item = mockData.find((f) => f.id === id) || null;
@@ -113,7 +114,7 @@ export const getByIdMock = async (id: number): Promise<IRol | null> => {
 };
 
 // ✅ CREATE
-export const createMock = async (newItem: Omit<IRol, "id">): Promise<IRol> => {
+export const createMock = async (newItem: Omit<IModule, "id">): Promise<IModule> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       const created = { ...newItem, id: mockData.length + 1 };
@@ -124,7 +125,7 @@ export const createMock = async (newItem: Omit<IRol, "id">): Promise<IRol> => {
 };
 
 // ✅ UPDATE
-export const updateMock = async (id: number, updatedItem: Partial<IRol>): Promise<IRol | null> => {
+export const updateMock = async (id: number, updatedItem: Partial<IModule>): Promise<IModule | null> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       let index = mockData.findIndex((f) => f.id === id);

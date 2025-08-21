@@ -65,7 +65,7 @@ export const updateBook = async (id: number, register: Partial<IForm>): Promise<
 // 🔹 DELETE
 export const deleteBook = async (id: number): Promise<boolean> => {
   try {
-    const response = await fetch(`${FORM_END_POINT}${id}`, {
+    const response = await fetch(`${FORM_END_POINT}${id}?tipo=2`, {
       method: "DELETE",
     });
     if (!response.ok) throw new Error("Error al eliminar el formulario");
@@ -83,15 +83,15 @@ export const deleteBook = async (id: number): Promise<boolean> => {
 let mockData: IForm[] = [
   {
     id: 1,
-    url: "https://ejemplo.com/form1",
     name: "Formulario A",
+    url: "https://ejemplo.com/form1",
     description: "Descripción del formulario A",
     isDelete: false,
   },
   {
     id: 2,
-    url: "https://ejemplo.com/form2",
     name: "Formulario B",
+    url: "https://ejemplo.com/form2",
     description: "Descripción del formulario B",
     isDelete: false,
   },
@@ -103,7 +103,7 @@ export const getAllBookMock = async (): Promise<IForm[]> => {
   return new Promise((resolve) => {
     setTimeout(() => {
       resolve(mockData);
-    }, 500); // pequeño delay para simular llamada real
+    }, 500); 
   });
 };
 
