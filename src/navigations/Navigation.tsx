@@ -17,6 +17,8 @@ import Header from "../components/Header";
 import Sidebar from "../components/sidebar"; 
 import { navigationRef } from "./rootNavigate";
 import ModuleScreen from "../screens/Module/ModuleScreen";
+import FormEdit from "../screens/Form/FormEdit";
+import FormCreate from "../screens/Form/FormCreate";
 
 
 
@@ -31,7 +33,6 @@ export default function Navigation() {
   return (
     <NavigationContainer ref={navigationRef }>
       <View style={{ flex: 1 }}>
-
         <Stack.Navigator screenOptions={{ headerShown: false  }}>
           <Stack.Screen name="Tabs">
             {() => (
@@ -98,6 +99,26 @@ export default function Navigation() {
               ),
             }}
           />
+          <Stack.Screen
+            name="FormEdit"
+            component={FormEdit}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Editar Formulario" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="FormCreate"
+            component={FormCreate}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Crear Formulario" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
         </Stack.Navigator>
 
         {sidebarVisible && (
@@ -108,7 +129,7 @@ export default function Navigation() {
               username="jesus"
               role="admin"
               onSelect={(item) => {
-                console.log("Seleccionaste:", item);
+                // console.log("Seleccionaste:", item);
                 setSidebarVisible(false);
               }}
               onClose={() => setSidebarVisible(false)}

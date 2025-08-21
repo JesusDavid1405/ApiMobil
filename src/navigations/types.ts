@@ -9,6 +9,8 @@ export type RootParamList = {
   RolUser: undefined;
   FormModule: undefined;
   RolFormPermission: undefined;
+  FormEdit: {Id: number | string};
+  FormCreate: undefined;
 };
 
 export type RoltackParamsList = {
