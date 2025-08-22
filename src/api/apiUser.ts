@@ -1,5 +1,6 @@
 import { IUser } from "./types/IUser";
 import { USER_END_POINT } from "../constants/endpoints";
+import { mockData as personsMock } from "./apiPerson"; // 👈 tu mock de personas
 
 export const getAll = async () => {
     try{
@@ -80,10 +81,29 @@ export const deleted = async (id: number) => {
     }
 }
 
-let mockData: IUser[] = [
-    { id: 1, email: "admin@example.com", password: "123456", personId: 1, isDelete: false },
-    { id: 2, email: "user1@example.com", password: "abcdef", personId: 2, isDelete: false },
-    { id: 3, email: "guest@example.com", password: "guest123", personId: 3, isDelete: false },
+export let mockData: IUser[] = [
+    {
+    id: 1,
+    username: "duro123",
+    personId: 1,
+    personName: "Jesus",   // 👈 se agrega para mostrar en la lista
+    email: "jesus@gmail.com",
+    password: "jesus123_",
+    isDelete: false,
+    createdDate: new Date().toISOString(),
+    active: true,
+  },
+  {
+    id: 2,
+    username: "maria263",
+    personId: 2,
+    personName: "Maria",
+    email: "maria@gmail.com",
+    password: "maria123_",
+    isDelete: false,
+    createdDate: new Date().toISOString(),
+    active: false,
+  },
 ];
 
 // ✅ GET ALL
@@ -105,16 +125,24 @@ export const getByIdMock = async (id: number): Promise<IUser | null> => {
     });
 };
 
-// ✅ CREATE con id único
-export const createMock = async (newItem: Omit<IUser, "id">): Promise<IUser> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            const maxId = mockData.length > 0 ? Math.max(...mockData.map((i) => i.id)) : 0;
-            const created = { ...newItem, id: maxId + 1 }; // 👈 siempre será mayor al existente
-            mockData.push(created);
-            resolve(created);
-        }, 300);
-    });
+export const createMock = async (
+  newItem: Omit<IUser, "id" | "createdDate" | "personName">
+): Promise<IUser> => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const person = personsMock.find((p) => p.id === newItem.personId);
+
+      const created: IUser = {
+        ...newItem,
+        id: mockData.length > 0 ? Math.max(...mockData.map((u) => u.id)) + 1 : 1,
+        createdDate: new Date().toISOString(),
+        personName: person ? person.name : undefined, // 👈 back lo asigna
+      };
+
+      mockData.push(created);
+      resolve(created);
+    }, 300);
+  });
 };
 
 

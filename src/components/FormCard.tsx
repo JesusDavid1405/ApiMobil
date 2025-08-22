@@ -73,7 +73,7 @@ function SimpleCard<T extends object>({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: "#007aff",
+    backgroundColor: "#c1e9e9ff",
     borderRadius: 20,
     padding: 20,
     width: 320,
@@ -113,7 +113,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   editButton: {
-    backgroundColor: "#34c759", // verde
+    backgroundColor: "#34bdc7ff", // verde
   },
   deleteButton: {
     backgroundColor: "#ff3b30", // rojo

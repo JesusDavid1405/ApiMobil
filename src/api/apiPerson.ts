@@ -84,7 +84,7 @@ export const deleted = async (id: number) => {
 
 //Mock Data for Testing
 
-let mockData: IPerson[] = [
+export let mockData: IPerson[] = [
   {
     id: 1,
     name: "Carlos",

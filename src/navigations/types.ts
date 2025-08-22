@@ -31,6 +31,8 @@ export type RootParamList = {
   UserEdit: {Id: number | string};
 
   RolUser: undefined;
+  RolUserCreate: undefined;
+
   FormModule: undefined;
   RolFormPermission: undefined;
 

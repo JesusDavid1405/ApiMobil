@@ -31,6 +31,9 @@ import PermissionEdit from "../screens/Permission/PermissionEdit";
 import PermissionCreate from "../screens/Permission/PermissionCreate";
 import UserScreen from "../screens/User/UserScreen";
 import UserCreate from "../screens/User/UserCreate";
+import UserEdit from "../screens/User/UserEdit";
+import RolUserScreen from "../screens/RolUser/RolUserScreen";
+import RolUserCreate from "../screens/RolUser/RolUserCreate";
 
 
 
@@ -187,7 +190,7 @@ export default function Navigation() {
             options={{
               headerShown: true,
               header: () => (
-                <Header title="Personas" onMenuPress={toggleSidebar} />
+                <Header title="Crear Persona" onMenuPress={toggleSidebar} />
               ),
             }}
           />
@@ -197,7 +200,7 @@ export default function Navigation() {
             options={{
               headerShown: true,
               header: () => (
-                <Header title="Personas" onMenuPress={toggleSidebar} />
+                <Header title="Editar Persona" onMenuPress={toggleSidebar} />
               ),
             }}
           />
@@ -247,7 +250,37 @@ export default function Navigation() {
             options={{
               headerShown: true,
               header: () => (
-                <Header title="Usuarios" onMenuPress={toggleSidebar} />
+                <Header title="Crear Usuario" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="UserEdit"
+            component={UserEdit}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Editar Usuario" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="RolUser"
+            component={RolUserScreen}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="RolUser" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="RolUserCreate"
+            component={RolUserCreate}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Crear RolUser" onMenuPress={toggleSidebar} />
               ),
             }}
           />

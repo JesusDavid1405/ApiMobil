@@ -6,6 +6,7 @@ import SimpleCard from "../../components/FormCard";
 import { RootParamList } from "../../navigations/types";
 import { IModule } from "../../api/types/IModule";
 import { getAllMock, deleteMock, getAll, deleted} from "../../api/apiModule";
+import CreateButton from "../../components/CreateButton";
 
 
 type BookScreenNavigationProp = NativeStackNavigationProp<
@@ -56,12 +57,10 @@ const ModuleScreen = () => {
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity
-                style={styles.addButton}
+            <CreateButton
+                label="Nuevo Modulo"
                 onPress={() => navigation.navigate("ModuleCreate")}
-            >
-                <Text style={styles.addButtonText}>➕ Nuevo Modulo</Text>
-            </TouchableOpacity>
+            />
             <FlatList
                 data={module}
                 keyExtractor={(item) => item.id.toString()}

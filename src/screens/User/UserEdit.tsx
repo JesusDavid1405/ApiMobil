@@ -1,26 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { IForm } from "../../api/types/IForm";
-import { getByIdMock, updateMock } from "../../api/apiForm"; // 👈 ahora usas el mock
-import Form from "./components/Form";
+import { useEffect, useState } from "react";
+import { IUser } from "../../api/types/IUser";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { RootParamList } from "../../navigations/types";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { getByIdMock, updateMock } from "../../api/apiUser";
+import { Alert, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import FormEdit from "./components/FormEdit";
 
-// Tipos de navegación y ruta
-type DetailsRouteProp = RouteProp<RootParamList, "FormEdit">;
+type DetailsRouteProp = RouteProp<RootParamList, "UserEdit">;
 type NavigationProp = NativeStackNavigationProp<RootParamList>;
 
-export default function FormEdit() {
-    const [form, setForm] = useState<IForm>({
-        id: 0,
-        url: "",
-        name: "",
-        description: "",
+export default function UserEdit() {
+    const [user, setForm] = useState<IUser>({
+        id: 0, 
+        username: "",
+        personId: 0,
+        personName: "",
+        email: "",
+        password: "",
         isDelete: false,
+        createdDate: "",
+        active: true,
     });
 
-    const [originalForm, setOriginalForm] = useState<IForm | null>(null);
+    const [originalForm, setOriginalForm] = useState<IUser | null>(null);
 
     const route = useRoute<DetailsRouteProp>();
     const navigation = useNavigation<NavigationProp>();
@@ -44,23 +47,17 @@ export default function FormEdit() {
         fetchData();
     }, [Id]);
 
-    const handleChange = (name: keyof IForm, value: string | boolean) => {
-        setForm({ ...form, [name]: value });
+    const handleChange = (name: keyof IUser, value: string | boolean | number) => {
+        setForm({ ...user, [name]: value });
     };
 
     const requestUpdateForm = async () => {
         if (!originalForm) return;
 
         const hasChanges =
-        form.name.trim() !== originalForm.name.trim() ||
-        form.description.trim() !== originalForm.description.trim() ||
-        form.url.trim() != originalForm.url.trim() ||
-        form.isDelete !== originalForm.isDelete;
-
-        if (!form.name.trim() || !form.description.trim()) {
-            Alert.alert("Error", "El nombre y la descripción son obligatorios.");
-            return;
-        }
+        user.username.trim() !== originalForm.username.trim() ||
+        user.email.trim() !== originalForm.email.trim() ||
+        user.personId != originalForm.personId;
 
         if (!hasChanges) {
             Alert.alert(
@@ -72,7 +69,7 @@ export default function FormEdit() {
 
         try {
             // ✅ Usamos updateMock
-            const updated = await updateMock(form.id, form);
+            const updated = await updateMock(user.id, user);
 
             if (updated) {
             // 👇 Mantengo la alerta de éxito
@@ -88,10 +85,9 @@ export default function FormEdit() {
         }
     };
 
-
     return (
         <View style={styles.container}>
-            <Form form={form} handleChange={handleChange} />
+            <FormEdit user={user} handleChange={handleChange} />
 
             <TouchableOpacity style={styles.button} onPress={requestUpdateForm}>
                 <Text style={styles.buttonText}>Guardar Cambios</Text>
@@ -118,4 +114,3 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
     },
 });
-

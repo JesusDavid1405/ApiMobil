@@ -86,7 +86,7 @@ export const deleteRol = async (id: number) => {
 }
 
 // 🔹 Datos iniciales de prueba
-let mockData: IRol[] = [
+export let mockData: IRol[] = [
   { id: 1, name: "Administrador", description: "Acceso total al sistema", isDelete: false },
   { id: 2, name: "Editor", description: "Puede editar contenido", isDelete: false },
   { id: 3, name: "Visor", description: "Solo lectura", isDelete: false },

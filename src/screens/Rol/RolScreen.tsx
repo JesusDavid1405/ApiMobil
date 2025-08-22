@@ -8,6 +8,7 @@ import { deleteMock, getAllMock, getAllRol } from "../../api/apiRol";
 import { Alert, TouchableOpacity, View, StyleSheet, Text } from 'react-native';
 import { ActivityIndicator, FlatList } from "react-native";
 import SimpleCard from "../../components/FormCard";
+import CreateButton from "../../components/CreateButton";
 
 type RolScreenNavigationProp = NativeStackNavigationProp<
     RootParamList,
@@ -58,12 +59,10 @@ const RolScreen = () => {
     return(
         <View style={styles.container}>
             {/* 🔹 Botón para ir a FormCreate */}
-            <TouchableOpacity
-                style={styles.addButton}
+            <CreateButton
+                label="Nuevo Rol"
                 onPress={() => navigation.navigate("RolCreate")}
-            >
-                <Text style={styles.addButtonText}>➕ Nuevo Rol</Text>
-            </TouchableOpacity>
+            />
 
             <FlatList
                 data={Roles}

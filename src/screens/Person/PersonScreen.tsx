@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { IPerson } from "../../api/types/IPerson";
 import { getAllMock, deleteMock } from "../../api/apiPerson";
 import SimpleCard from "../../components/FormCard";
+import CreateButton from "../../components/CreateButton";
 
 type PersonScreenNavigationProp = NativeStackNavigationProp<
   RootParamList,
@@ -56,12 +57,10 @@ const PersonScreen = () => {
   return (
     <View style={styles.container}>
       {/* 🔹 Botón para ir a PersonCreate */}
-      <TouchableOpacity
-        style={styles.addButton}
+      <CreateButton
+        label="Nueva Persona"
         onPress={() => navigation.navigate("PersonCreate")}
-      >
-        <Text style={styles.addButtonText}>➕ Nueva Persona</Text>
-      </TouchableOpacity>
+      />
 
       <FlatList
         data={Person}

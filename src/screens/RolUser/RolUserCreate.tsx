@@ -2,52 +2,47 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootParamList } from "../../navigations/types";
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { IUser } from "../../api/types/IUser";
-import { View, StyleSheet, Text, Alert, TouchableOpacity } from "react-native";
-import Form from "./components/FormCreate";
-import { createMock } from "../../api/apiUser";
+import { IRolUser } from "../../api/types/IRolUser";
+import { Alert, Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import { createMock } from "../../api/apiRolUser";
+import Form from "./components/Form";
 
 type NavigationProp = NativeStackNavigationProp<RootParamList>;
 
-export default function UserCreate() {
+export default function RolUserCreate() {
     const navigation = useNavigation<NavigationProp>();
 
-    // Estado inicial vacío
-    const [user, setForm] = useState<IUser>({
-        id: 0, 
-        username: "",
-        personId: 0,
-        personName: "",
-        email: "",
-        password: "",
+    const [rolUser, setRolUser] = useState<IRolUser>({
+        id: 0,
+        rolId: 0,
+        userId: 0,
         isDelete: false,
-        createdDate: "",
-        active: true,
     });
 
-    const handleChange = (field: keyof IUser, value: string | boolean | number) => {
-        setForm({ ...user, [field]: value });
+    const handleChange = (field: keyof IRolUser, value: string | boolean | number) => {
+        setRolUser({ ...rolUser, [field]: value });
     };
 
     const requestCreateForm = async () => {
-        if (!user.email.trim() || !user.password.trim() || !user.personId || !user.username.trim()) {
+        if (!rolUser.rolId || !rolUser.userId) {
             Alert.alert("Error", "Todos los campos son obligatorios.");
             return;
         }
 
         try {
-            await createMock(user); // 👈 simula creación
-            Alert.alert("Éxito", "Formulario creado correctamente.", [
+            // Aquí deberías llamar a la función para crear el rolUsuario, similar a createMock en UserCreate.tsx
+            await createMock(rolUser); // 👈 simula creación
+            Alert.alert("Éxito", "RolUsuario creado correctamente.", [
                 { text: "OK", onPress: () => navigation.goBack() },
             ]);
         } catch (error) {
-            Alert.alert("Error", "Hubo un problema al crear el formulario.");
+            Alert.alert("Error", "Hubo un problema al crear el RolUsuario.");
         }
     };
 
     return (
         <View style={styles.container}>
-            <Form user={user} handleChange={handleChange} />
+            <Form rolUser={rolUser} handleChange={handleChange} />
 
             <TouchableOpacity style={styles.button} onPress={requestCreateForm}>
                 <Text style={styles.buttonText}>Crear Formulario</Text>

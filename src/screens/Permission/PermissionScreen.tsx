@@ -6,6 +6,7 @@ import SimpleCard from "../../components/FormCard";
 import { FlatList, TouchableOpacity, View, Text, ActivityIndicator, StyleSheet, Alert } from "react-native";
 import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { deleteMock, getAllMock } from "../../api/apiPermission";
+import CreateButton from "../../components/CreateButton";
 
 type PermissionScreenNavigationProp = NativeStackNavigationProp<
     RootParamList,
@@ -57,12 +58,10 @@ const PermissionScreen = () => {
     return (
         <View style={styles.container}>
             {/* 🔹 Botón para ir a FormCreate */}
-            <TouchableOpacity
-                style={styles.addButton}
+            <CreateButton
+                label="Nuevo Permiso"
                 onPress={() => navigation.navigate("PermissionCreate")}
-            >
-                <Text style={styles.addButtonText}>➕ Nuevo Permiso</Text>
-            </TouchableOpacity>
+            />
 
             <FlatList
                 data={permission}

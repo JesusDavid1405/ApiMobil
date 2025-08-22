@@ -1,38 +1,38 @@
 import { useIsFocused, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { deleteMock, getAllMock } from "../../api/apiRolUser";
 import { useEffect, useState } from "react";
+import { IRolUser } from "../../api/types/IRolUser";
 import { View, StyleSheet, Text, ActivityIndicator, Alert, TouchableOpacity, FlatList } from "react-native";
 import { RootParamList } from "../../navigations/types";
-import { IUser } from "../../api/types/IUser";
-import { deleteMock, getAllMock } from "../../api/apiUser";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import SimpleCard from "../../components/FormCard";
 import CreateButton from "../../components/CreateButton";
 
-type UserScreenNavigationProp = NativeStackNavigationProp<
+type RolUserScreenNavigationProp = NativeStackNavigationProp<
     RootParamList,
-    "User"
+    "RolUser"
 >;
 
-const UserScreen = () => {
-    const navigation = useNavigation<UserScreenNavigationProp>();
-    const [users, setUsers] = useState<IUser[]>([]);
+const RolUserScreen = () => {
+    const navigation = useNavigation<RolUserScreenNavigationProp>();
+    const [rolUsers, setRolUsers] = useState<IRolUser[]>([]);
     const [loading, setLoading] = useState(true);
 
     // 👀 Hook que detecta si la pantalla está activa
     const isFocused = useIsFocused();
 
-    const fetchUsers = async () => {
+    const fetchRolUsers = async () => {
         setLoading(true);
         const data = await getAllMock();
         if (Array.isArray(data)) {
-            setUsers(data);
+            setRolUsers(data);
         }
         setLoading(false);
     };
 
     useEffect(() => {
         if (isFocused) {
-            fetchUsers(); // 🔄 recarga cada vez que entras a la pantalla
+            fetchRolUsers(); // 🔄 recarga cada vez que entras a la pantalla
         }
     }, [isFocused]);
 
@@ -47,37 +47,35 @@ const UserScreen = () => {
     const handleDelete = async (id: number) => {
         try {
             await deleteMock(id);
-            setUsers((prev) => prev.filter((item) => item.id !== id));
-            Alert.alert("Éxito", "Usuario eliminado correctamente.");
+            setRolUsers((prev) => prev.filter((item) => item.id !== id));
+            Alert.alert("Éxito", "RolUsuario eliminado correctamente.");
         } catch (error) {
-            Alert.alert("Error", "Hubo un problema al eliminar el usuario.");
+            Alert.alert("Error", "Hubo un problema al eliminar el RolUsuario.");
         }
     };
 
     return (
         <View style={styles.container}>
-            {/* 🔹 Botón para ir a UserCreate */}
             <CreateButton
-                label="Nuevo Usuario"
-                onPress={() => navigation.navigate("UserCreate")}
+                label="Nuevo RolUser"
+                onPress={() => navigation.navigate("RolUserCreate")}
             />
 
             <FlatList
-                data={users}
+                data={rolUsers}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <SimpleCard
                         data={item}
                         onDelete={() => handleDelete(item.id)}
                         onEdit={() => navigation.navigate("UserEdit", { Id: item.id })}
-                        excludeKeys={["id", "isDelete", "password", "personId"]}
+                        excludeKeys={["id", "isDelete", "rolId", "userId"]}
                     />
                 )}
             />
         </View>
     );
 };
-
 
 const styles = StyleSheet.create({
     container: {
@@ -89,18 +87,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
-    addButton: {
-        backgroundColor: "#4CAF50",
-        padding: 12,
-        borderRadius: 8,
-        alignItems: "center",
-        marginBottom: 16,
-    },
-    addButtonText: {
-        color: "#fff",
-        fontSize: 16,
-        fontWeight: "bold",
-    },
+    
 });
 
-export default UserScreen;
+export default RolUserScreen;

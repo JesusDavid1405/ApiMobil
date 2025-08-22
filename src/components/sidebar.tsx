@@ -40,7 +40,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       <View style={styles.menu}>
         <SidebarItem
-          icon="home"
+          icon="layers"
           label="Roles"
           active={activeItem === 'Roles'}
           onPress={() => {
@@ -92,6 +92,15 @@ const Sidebar: React.FC<SidebarProps> = ({
           onPress={() => {
             onSelect('User');
             navigate('User'); 
+          }}
+        />
+        <SidebarItem 
+          icon="user-check"
+          label="Roles y Usuarios"
+          active={activeItem === 'Roles y Usuarios'}
+          onPress={() => {
+            onSelect('RolUser');
+            navigate('RolUser'); 
           }}
         />
       </View>
