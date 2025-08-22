@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { IForm } from "../../api/types/IForm";
-import { getByIdMock } from "../../api/apiForm"; // 👈 ahora usas el mock
+import { getByIdMock, updateMock } from "../../api/apiForm"; // 👈 ahora usas el mock
 import Form from "./components/Form";
 import { RootParamList } from "../../navigations/types";
 
@@ -54,6 +54,7 @@ export default function FormEdit() {
         const hasChanges =
         form.name.trim() !== originalForm.name.trim() ||
         form.description.trim() !== originalForm.description.trim() ||
+        form.url.trim() != originalForm.url.trim() ||
         form.isDelete !== originalForm.isDelete;
 
         if (!hasChanges) {
@@ -65,15 +66,23 @@ export default function FormEdit() {
         }
 
         try {
-            // Aquí puedes simular que se actualizó:
-            Alert.alert("Éxito", "Formulario actualizado correctamente.", [
-                { text: "OK", onPress: () => navigation.goBack() },
-            ]);
-            } catch (error) {
+            // ✅ Usamos updateMock
+            const updated = await updateMock(form.id, form);
+
+            if (updated) {
+            // 👇 Mantengo la alerta de éxito
+                Alert.alert("Éxito", "Formulario actualizado correctamente.", [
+                    { text: "OK", onPress: () => navigation.goBack() },
+                ]);
+            } else {
+                Alert.alert("Error", "No se pudo actualizar el formulario.");
+            }
+        } catch (error) {
             console.error("Error completo:", error);
             Alert.alert("Error", "Hubo un problema al actualizar el formulario.");
         }
     };
+
 
     return (
         <View style={styles.container}>

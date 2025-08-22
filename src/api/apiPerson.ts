@@ -51,38 +51,34 @@ export const update = async (register: IPerson) => {
 }
 
 export const create = async (register: IPerson) => {
-    try {
-        const response = await fetch(PERSON_END_POINT, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(register),
-        });
-        
-        if (!response.ok) throw new Error("Error al crear el Rol");
-        let data = await response.json();
-        console.log(data);
-        return data;
-
-    } catch (error) {
-      
-        return error;
-    }
+  try {
+    const response = await fetch(PERSON_END_POINT, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(register),
+    });
+    
+    if (!response.ok) throw new Error("Error al crear el Rol");
+    let data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    return error;
+  }
 }
 
 export const deleted = async (id: number) => {
   try{
-      const response = await fetch(PERSON_END_POINT + id + "?tipo=2",{
-          method: "DELETE",
-      });
-
-      if (!response.ok) throw new Error("Error al eliminar el Rol");
-
-      let data = await response.json();
-      console.log(data);
-      return data;
+    const response = await fetch(PERSON_END_POINT + id + "?tipo=2",{
+      method: "DELETE",
+    });
+    if (!response.ok) throw new Error("Error al eliminar el Rol");
+    let data = await response.json();
+    console.log(data);
+    return data;
   }
   catch(error){
-      return error;
+    return error;
   }
 }
 

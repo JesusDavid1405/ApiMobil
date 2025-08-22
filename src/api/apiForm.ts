@@ -122,7 +122,8 @@ export const getByIdMock = async (id: number): Promise<IForm | null> => {
 export const createMock = async (newItem: Omit<IForm, "id">): Promise<IForm> => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      const created = { ...newItem, id: mockData.length + 1 };
+      const maxId = mockData.length > 0 ? Math.max(...mockData.map((i) => i.id)) : 0;
+      const created = { ...newItem, id: maxId + 1 }; // 👈 siempre será mayor al existente
       mockData.push(created);
       resolve(created);
     }, 300);

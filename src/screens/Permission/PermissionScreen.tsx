@@ -1,39 +1,39 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList, Alert } from "react-native";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import SimpleCard from "../../components/FormCard";
+import React, { useEffect, useState } from "react"
+import { NativeStackNavigationProp } from "@react-navigation/native-stack"
+import { IPermission } from "../../api/types/IPermission"
 import { RootParamList } from "../../navigations/types";
-import { IModule } from "../../api/types/IModule";
-import { getAllMock, deleteMock, getAll, deleted} from "../../api/apiModule";
+import SimpleCard from "../../components/FormCard";
+import { FlatList, TouchableOpacity, View, Text, ActivityIndicator, StyleSheet, Alert } from "react-native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { deleteMock, getAllMock } from "../../api/apiPermission";
 
-
-type BookScreenNavigationProp = NativeStackNavigationProp<
-  RootParamList,
-  "Module"
+type PermissionScreenNavigationProp = NativeStackNavigationProp<
+    RootParamList,
+    "Permission"
 >;
 
-const ModuleScreen = () => {
-    const [module, setBooks] = useState<IModule[]>([]);
-    const [loading, setLoading] = useState(true);
-    const navigation = useNavigation<BookScreenNavigationProp>();
+const PermissionScreen = () => {
+    const [permission, setPermission] = useState<IPermission[]>([]);
 
+    const [loading, setLoading] = useState(true);
+    const navigation = useNavigation<PermissionScreenNavigationProp>();
+
+    // 👀 Hook que detecta si la pantalla está activa
     const isFocused = useIsFocused();
 
     const fetchBooks = async () => {
         setLoading(true);
         const data = await getAllMock();
         if (Array.isArray(data)) {
-            setBooks(data);
+            setPermission(data);
         }
         setLoading(false);
     };
 
     useEffect(() => {
-        if (isFocused){
-            fetchBooks();
+        if (isFocused) {
+            fetchBooks(); // 🔄 recarga cada vez que entras a la pantalla
         }
-
     }, [isFocused]);
 
     if (loading) {
@@ -47,8 +47,8 @@ const ModuleScreen = () => {
     const handleDelete = async (id: number) => {
         try {
             await deleteMock(id); 
-            setBooks((prev) => prev.filter((item) => item.id !== id));
-        Alert.alert("Éxito", "Formulario eliminado correctamente.");
+            setPermission((prev) => prev.filter((item) => item.id !== id));
+            Alert.alert("Éxito", "Formulario eliminado correctamente.");
         } catch (error) {
             Alert.alert("Error", "Hubo un problema al eliminar el formulario.");
         }
@@ -56,27 +56,29 @@ const ModuleScreen = () => {
 
     return (
         <View style={styles.container}>
+            {/* 🔹 Botón para ir a FormCreate */}
             <TouchableOpacity
                 style={styles.addButton}
-                onPress={() => navigation.navigate("ModuleCreate")}
+                onPress={() => navigation.navigate("PermissionCreate")}
             >
-                <Text style={styles.addButtonText}>➕ Nuevo Modulo</Text>
+                <Text style={styles.addButtonText}>➕ Nuevo Permiso</Text>
             </TouchableOpacity>
+
             <FlatList
-                data={module}
+                data={permission}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <SimpleCard
                         data={item}
                         onDelete={() => handleDelete(item.id)}
-                        onEdit={() => navigation.navigate("ModuleEdit", { Id: item.id })}
+                        onEdit={() => navigation.navigate("PermissionEdit", { Id: item.id })}
                         excludeKeys={["id", "isDelete"]} // Excluye la clave 'id' y 'isDelete'
                     />
                 )}
             />
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -99,4 +101,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ModuleScreen;
+export default PermissionScreen

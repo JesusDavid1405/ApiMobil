@@ -20,8 +20,16 @@ export type RootParamList = {
   PersonCreate: undefined;
   PersonEdit: {Id: number | string};
 
-  User: undefined;
+  // Permission
   Permission: undefined;
+  PermissionCreate: undefined;
+  PermissionEdit: {Id: number | string};
+
+  // User
+  User: undefined;
+  UserCreate: undefined;
+  UserEdit: {Id: number | string};
+
   RolUser: undefined;
   FormModule: undefined;
   RolFormPermission: undefined;

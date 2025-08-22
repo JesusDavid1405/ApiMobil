@@ -26,6 +26,11 @@ import ModuleCreate from "../screens/Module/ModuleCreate";
 import PersonScreen from "../screens/Person/PersonScreen";
 import PersonCreate from "../screens/Person/PersonCreate";
 import PersonEdit from "../screens/Person/PersonEdit";
+import PermissionScreen from "../screens/Permission/PermissionScreen";
+import PermissionEdit from "../screens/Permission/PermissionEdit";
+import PermissionCreate from "../screens/Permission/PermissionCreate";
+import UserScreen from "../screens/User/UserScreen";
+import UserCreate from "../screens/User/UserCreate";
 
 
 
@@ -193,6 +198,56 @@ export default function Navigation() {
               headerShown: true,
               header: () => (
                 <Header title="Personas" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="Permission"
+            component={PermissionScreen}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Permisos" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="PermissionEdit"
+            component={PermissionEdit}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Editar Permiso" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="PermissionCreate"
+            component={PermissionCreate}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Crear Permiso" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="User"
+            component={UserScreen}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Usuarios" onMenuPress={toggleSidebar} />
+              ),
+            }}
+          />
+          <Stack.Screen
+            name="UserCreate"
+            component={UserCreate}
+            options={{
+              headerShown: true,
+              header: () => (
+                <Header title="Usuarios" onMenuPress={toggleSidebar} />
               ),
             }}
           />

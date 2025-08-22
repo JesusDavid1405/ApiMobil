@@ -1,25 +1,24 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet, Alert } from "react-native";
-import { RouteProp, useRoute, useNavigation } from "@react-navigation/native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import Form from "./components/Form";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { RootParamList } from "../../navigations/types";
-import { IModule } from "../../api/types/IModule";
-import { getByIdMock, updateMock } from "../../api/apiModule";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { useEffect, useState } from "react";
+import { IPermission } from "../../api/types/IPermission";
+import { View, StyleSheet, Text, Alert, TouchableOpacity, } from "react-native";
+import Form from "./components/Form";
+import { getByIdMock, updateMock } from "../../api/apiPermission";
 
-// Tipos de navegación y ruta
-type DetailsRouteProp = RouteProp<RootParamList, "ModuleEdit">;
+type DetailsRouteProp = RouteProp<RootParamList, "PermissionEdit">;
 type NavigationProp = NativeStackNavigationProp<RootParamList>;
 
-export default function ModuleEdit() {
-    const [module, setModule] = useState<IModule>({
+export default function PermissionEdit() {
+    const [permission, setForm] = useState<IPermission>({
         id: 0,
         name: "",
         description: "",
         isDelete: false,
     });
 
-    const [originalForm, setOriginalForm] = useState<IModule | null>(null);
+    const [originalForm, setOriginalForm] = useState<IPermission | null>(null);
 
     const route = useRoute<DetailsRouteProp>();
     const navigation = useNavigation<NavigationProp>();
@@ -30,30 +29,30 @@ export default function ModuleEdit() {
             try {
                 const response = await getByIdMock(Number(Id)); // 👈 usamos mock
                 if (response) {
-                    setModule(response);
+                    setForm(response);
                     setOriginalForm(response);
                 } else {
-                    Alert.alert("Error", "Modulos no encontrado.");
+                    Alert.alert("Error", "Formulario no encontrado en mock.");
                 }
             } catch (error) {
-                Alert.alert("Error", "No se pudo obtener el Modulos.");
+                Alert.alert("Error", "No se pudo obtener el formulario.");
             }
         };
 
         fetchData();
     }, [Id]);
 
-    const handleChange = (name: keyof IModule, value: string | boolean) => {
-        setModule({ ...module, [name]: value });
+    const handleChange = (name: keyof IPermission, value: string | boolean) => {
+        setForm({ ...permission, [name]: value });
     };
 
     const requestUpdateForm = async () => {
         if (!originalForm) return;
 
         const hasChanges =
-        module.name.trim() !== originalForm.name.trim() ||
-        module.description.trim() !== originalForm.description.trim() ||
-        module.isDelete !== originalForm.isDelete;
+        permission.name.trim() !== originalForm.name.trim() ||
+        permission.description.trim() !== originalForm.description.trim() ||
+        permission.isDelete !== originalForm.isDelete;
 
         if (!hasChanges) {
             Alert.alert(
@@ -64,24 +63,27 @@ export default function ModuleEdit() {
         }
 
         try {
-            const update = await updateMock(module.id, module);
+            // ✅ Usamos updateMock
+            const updated = await updateMock(permission.id, permission);
 
-            if (update) {
-                Alert.alert("Éxito", "Modulo actualizado correctamente.", [
+            if (updated) {
+            // 👇 Mantengo la alerta de éxito
+                Alert.alert("Éxito", "Permiso actualizado correctamente.", [
                     { text: "OK", onPress: () => navigation.goBack() },
                 ]);
-            } else{
-                Alert.alert("Error","No se pudo actualizar el Modulo")
+            } else {
+                Alert.alert("Error", "No se pudo actualizar el Permiso.");
             }
         } catch (error) {
             console.error("Error completo:", error);
-            Alert.alert("Error", "Hubo un problema al actualizar el Modulo.");
+            Alert.alert("Error", "Hubo un problema al actualizar el Permiso.");
         }
     };
 
+
     return (
         <View style={styles.container}>
-            <Form module={module} handleChange={handleChange} />
+            <Form permission={permission} handleChange={handleChange} />
 
             <TouchableOpacity style={styles.button} onPress={requestUpdateForm}>
                 <Text style={styles.buttonText}>Guardar Cambios</Text>

@@ -6,6 +6,7 @@ import Form from "./components/Form";
 import { useEffect, useState } from "react";
 import { IPerson } from "../../api/types/IPerson";
 import { getByIdMock } from "../../api/apiPerson";
+import { updateMock } from "../../api/apiRol";
 
 type DetailsRouteProp = RouteProp<RootParamList, "PersonEdit">;
 type NavigationProp = NativeStackNavigationProp<RootParamList>;
@@ -73,11 +74,16 @@ export default function PersonEdit() {
         }
 
         try {
-            // Aquí puedes simular que se actualizó:
-            Alert.alert("Éxito", "persona actualizado correctamente.", [
-                { text: "OK", onPress: () => navigation.goBack() },
-            ]);
-            } catch (error) {
+            const update = await updateMock(person.id, person);
+
+            if(update){
+                Alert.alert("Éxito", "Persona actualizado correctamente.", [
+                    { text: "OK", onPress: () => navigation.goBack() },
+                ]);
+            } else{
+                Alert.alert("Error", "No se pudo actualizar el Persona")
+            }
+        } catch (error) {
             console.error("Error completo:", error);
             Alert.alert("Error", "Hubo un problema al actualizar la Persona.");
         }

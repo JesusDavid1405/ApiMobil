@@ -1,5 +1,5 @@
 
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootParamList } from "../../navigations/types";
 import React, { useEffect, useState } from "react";
@@ -19,19 +19,23 @@ const RolScreen = () => {
     const [Roles, setRoles] = useState<IRol[]>([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() =>{
-        const fetchRoles = async () => {
-            const data = await getAllMock();
-            
-            if(Array.isArray(data)) {
-                setRoles(data);
-                // console.log("Roles:", data);
-            }
-            setLoading(false);
-        };
+    const isFocused = useIsFocused();
 
-        fetchRoles();
-    }, []);
+    const fetchRoles = async () => {
+        setLoading(true);
+        const data = await getAllMock();
+        if(Array.isArray(data)) {
+            setRoles(data);
+            // console.log("Roles:", data);
+        }
+        setLoading(false);
+    };
+
+    useEffect(() =>{
+        if (isFocused){
+            fetchRoles();
+        }
+    }, [isFocused]);
 
     if(loading){
         return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator, FlatList, Alert } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useIsFocused, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { deleteMock, getAllBookMock } from "../../api/apiForm";
 import SimpleCard from "../../components/FormCard";
@@ -8,8 +8,8 @@ import { RootParamList } from "../../navigations/types";
 import { IForm } from "../../api/types/IForm";
 
 type BookScreenNavigationProp = NativeStackNavigationProp<
-  RootParamList,
-  "Form"
+    RootParamList,
+    "Form"
 >;
 
 const FormScreen = () => {
@@ -17,17 +17,23 @@ const FormScreen = () => {
     const [loading, setLoading] = useState(true);
     const navigation = useNavigation<BookScreenNavigationProp>();
 
-    useEffect(() => {
-        const fetchBooks = async () => {
+    // 👀 Hook que detecta si la pantalla está activa
+    const isFocused = useIsFocused();
+
+    const fetchBooks = async () => {
+        setLoading(true);
         const data = await getAllBookMock();
         if (Array.isArray(data)) {
             setBooks(data);
         }
         setLoading(false);
-        };
+    };
 
-        fetchBooks();
-    }, []);
+    useEffect(() => {
+        if (isFocused) {
+            fetchBooks(); // 🔄 recarga cada vez que entras a la pantalla
+        }
+    }, [isFocused]);
 
     if (loading) {
         return (

@@ -76,6 +76,24 @@ const Sidebar: React.FC<SidebarProps> = ({
             navigate('Person'); 
           }}
         />
+        <SidebarItem 
+          icon="key"
+          label="Permisos"
+          active={activeItem === 'Permisos'}
+          onPress={() => {
+            onSelect('Permission');
+            navigate('Permission'); 
+          }}
+        />
+        <SidebarItem 
+          icon="users"
+          label="Usuarios"
+          active={activeItem === 'Usuarios'}
+          onPress={() => {
+            onSelect('User');
+            navigate('User'); 
+          }}
+        />
       </View>
 
       <TouchableOpacity style={styles.logout}>
